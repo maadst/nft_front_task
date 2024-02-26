@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar NFT</title>
+    
+   <style>
+     #imagenContenedor {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 300px; 
+    height: 300px; 
+    border: 1px solid #ccc; 
+    overflow: hidden; 
+}
+
+#imagenContenedor img {
+    max-width: 100%; 
+    max-height: 100%; 
+}
+    </style>
+</head>
+<body>
+    <h1>NFT obtenido</h1>
+    <div id="imagenContenedor"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const apiKey = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDkxMTkwODAsImp0aSI6IjJjSkk2ZEZhaVVDb1ZYa1hBR3FNTzdIcWpGOSIsInR5cGUiOiJlcnAiLCJpZCI6IiIsInVzZXJuYW1lIjoiaWxlZ2VuZGJvMkBnbWFpbC5jb20iLCJjaWQiOiI3YjM1YjI5OC1iYjhhLTRhY2QtYWE2Yi1mNjE2N2M1MGYyOTYiLCJza3UiOlt7InIiOjExLCJzIjo4LCJlIjowfSx7InIiOjExLCJzIjo4MDAxLCJlIjowfSx7InIiOjExLCJzIjo4MDAyLCJlIjowfSx7InIiOjExLCJzIjo4MDEwLCJlIjowfSx7InIiOjExLCJzIjo4MDA1LCJlIjowfSx7InIiOjExLCJzIjozLCJlIjowfSx7InIiOjExLCJzIjo4MDAzLCJlIjowfV0sInB1YyI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCJ9.Ta2YVkYBtqkUNFeya0bTLCU0EG61NSXdqz_0Vodf5vuULclQGnEjwa_tpivQlNbAKiTjkwIggW4Nx6AGrsTU6AnRQ6bqEmjEburj4xYyiQ-IhrVBQ8NQfujv0ipxURkCIPmQR8gAF7WW8W35c7nnKTZieHAVdbUSVsSZDXDmjJ0kj0cm-1McY0GeMCp9zfIFmRtHao7qPvgnNYB1numGfMiL7zy7VTn1uylcCi8hvuEKY6iLwjrV6nlafmJvUJS656FUEgHBPjCLKc3XjCBYggm0cZ9ffSj8IvYcQt-M_It8g6BaZtT0Oc0axgOF3PALyWqgTjQb5-2oZdl4JBTByyyUL0YWB5ytdw4qVVPa2086ypRlYJeuj96JZswCFOvZy2vI00vNHM4I9Pvz_wwjELoN5k9-k61HYbdQ-R4NPJ_9fKELTJri4HMpN6VCxLKcpIUpcyQWTfqkRSzTNaweodKMKlDMkZZnZ9CtBl-yHjL1I78lKMU0O8VyP9KrYRiEwmV7awNwppNxW_fFRXSwcsoynLPILT6kKO2s_KLHDWH4DS2r5XXwOR-BRQnr8USVxltsnw6QnvOL2KYLf-eYvSB_5ptQWxf64bgHvO0aCYOr0rgmP5xfzKRLhEnemnCThD-k6FjEnXozUZhI_x8dEIFcUNjBFxPxiMSgCfOpYRU';
+            const appId = 'bxNw2cxXrdUCEyTgUiIZW1fXCCIZ57VTA52iLmWNdvfYFO5K_Gx1vuqAg212Rrc2';
+            const requestBody = JSON.stringify({
+                "contractAddress": "0x5c4c2159eC9D6771d5A1ccB38Ca2c17D36f59182",
+                "network": 80001,
+                "id": 1
+            });
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`,
+                    'X-Application-Vkn': appId
+                },
+                body: requestBody
+            };
+
+            try {
+                const response = await fetch('https://api.vottun.tech/erc/v1/erc721/tokenUri', requestOptions);
+                const data = await response.json();
+                if (data.uri) {
+                    mostrarImagen(data.uri);
+                } else {
+                    console.error('No se encontró ninguna imagen para los parámetros proporcionados.');
+                }
+            } catch (error) {
+                console.error('Error al obtener la imagen:', error);
+                alert('Hubo un error al obtener la imagen.');
+            }
+        });
+
+        // Función para mostrar NFT
+        function mostrarImagen(uri) {
+            const imagenContenedor = document.getElementById('imagenContenedor');
+            imagenContenedor.innerHTML = `<img src="${uri}" alt="NFT obtenido">`;
+        }
+    </script>
+</body>
+</html>
